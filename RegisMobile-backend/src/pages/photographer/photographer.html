@@ -1,0 +1,77 @@
+<!--
+  Generated template for the PhotographerPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Photographer</ion-title>
+  </ion-navbar>
+
+  <ion-item>
+    <button ion-button (click)="onLogout()">Log Out</button>
+  </ion-item>
+</ion-header>
+
+
+<ion-content padding>
+  Welcome, {{photographer}}
+  <br>
+  <div padding>
+  <ion-segment [(ngModel)]="photographerPage" color="secondary">
+      <ion-segment-button value="newAlbum">
+        New Album
+      </ion-segment-button>
+      <ion-segment-button value="editAlbum">
+        Edit Album
+      </ion-segment-button>
+    </ion-segment>
+</div>
+
+    <div [ngSwitch]="photographerPage">
+      <ion-list *ngSwitchCase ="'newAlbum'">
+        <form #f="ngForm" (ngSubmit)="onAddCustomer(f)">
+          <ion-item>
+              <button ion-button
+                 (click)="selectImage()">Select an image</button>
+                 <input
+                    type="hidden"
+                    name="image"
+                    [(ngModel)]="photo">
+                 <img [src]="photo">
+            </ion-item>
+        <ion-item>
+          <ion-input type="text" ngModel name="fName" placeholder="First Name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="text" ngModel name="lName" placeholder="Last Name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="phone" ngModel name="phone" placeholder="Phone"></ion-input>
+        </ion-item>
+      <button ion-button icon-left type="submit" >
+        <ion-icon></ion-icon>Upload
+      </button>
+    </form>
+    </ion-list>
+
+      <ion-list *ngSwitchCase ="'editAlbum'">
+        <ion-list>
+          <ion-item *ngFor="let item of customers | async">
+            <a (click)="onEditAlbum()">{{item.fName}}, {{item.lName}}, </a>
+          </ion-item>
+        </ion-list>
+      </ion-list>
+    </div>
+</ion-content>
+<ion-footer *ngIf="showUpload">
+  <ion-toolbar color="primary">
+    <ion-buttons>
+      <button ion-button icon-left (click)="photoActionSheet()">
+        <ion-icon name="camera"></ion-icon>Select Image
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
